@@ -14,9 +14,24 @@ namespace APIBoletim.Repositories
         BoletimContext conexao = new BoletimContext();
         SqlCommand cmd = new SqlCommand();
 
-        public Aluno AlterarAluno(Aluno _aluno, int _idAluno)
+        public Aluno Alterar(int a, Aluno aluno)
         {
-            throw new NotImplementedException();
+            cmd.Connection = conexao.Conectar();
+            cmd.CommandText = "UPDATE Aluno SET" +
+                "Nome = @nome" +
+                "Ra = @ra" +
+                "idade = @idade WHERE IdAluno = @id";
+            cmd.Parameters.AddWithValue("@nome",  aluno.Nome);
+            cmd.Parameters.AddWithValue("@ra", aluno.RA);
+            cmd.Parameters.AddWithValue("@idade", aluno.Idade);
+
+            cmd.Parameters.AddWithValue("@id", id);
+
+            cmd.ExecuteNonQuery();
+
+
+            conexao.Desconectar();
+            return aluno;
         }
 
         public Aluno BuscarPorId(int _idAluno)
@@ -64,7 +79,7 @@ namespace APIBoletim.Repositories
             return aluno;
         }
 
-        public Aluno ExcluirAluno(int idAluno)
+        public void Excluir(int idAluno)
         {
            cmd.Connection = conexao.Conectar();
 
